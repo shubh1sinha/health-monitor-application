@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Add Health Record</title>
+    <style>
+        body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:#0f2027;color:#ecf0f1;padding:24px}
+        .card{background:#071426;padding:20px;border-radius:8px;max-width:520px}
+        input{width:100%;padding:8px;margin:8px 0;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit}
+        .btn{background:#FF7A59;color:#102a43;padding:8px 12px;border:0;border-radius:6px;cursor:pointer}
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 th:text="'Add record for: ' + ${user.name}">Add record</h2>
+    <form th:action="@{/records/add}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <label>Date</label>
+        <input type="date" name="date" th:value="${entryDate}" />
+        <label>Systolic</label>
+        <input type="number" name="systolic" />
+        <label>Diastolic</label>
+        <input type="number" name="diastolic" />
+        <label>Sugar Level Fasting</label>
+        <input type="number" step="0.1" name="sugarLevelFasting" />
+        <label>Sugar Level PostMeal</label>
+        <input type="number" step="0.1" name="sugarLevelPostMeal" />
+        <div style="display:flex;gap:8px">
+            <button class="btn" type="submit">Save</button>
+            <a th:href="@{/main(userId=${user.id})}" style="align-self:center;color:#b8c2c9;text-decoration:none">Back</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

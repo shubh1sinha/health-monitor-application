@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BP &amp; Sugar Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root{
+          --bg1: #0f2027;
+          --bg2: #203a43;
+          --accent: #FF7A59;
+          --card: rgba(255,255,255,0.06);
+          --muted: #b8c2c9;
+          --table-head: rgba(255,255,255,0.08);
+        }
+        html,body{
+          height:100%;
+          margin:0;
+          font-family:Inter,system-ui,Arial,Helvetica,sans-serif;
+          background:linear-gradient(135deg,var(--bg1),var(--bg2));
+          color:#ecf0f1;
+          font-size: 1rem;
+        }
+        .wrap{
+          max-width:980px;
+          margin:36px auto;
+          padding:24px;
+        }
+        .header{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:16px;
+          flex-wrap: wrap;
+        }
+        .brand{
+          display:flex;
+          align-items:center;
+          gap:12px;
+        }
+        .logo{
+          width:48px;
+          height:48px;
+          border-radius:8px;
+          background:linear-gradient(135deg,#ffd89b,#19547b);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-weight:700;
+          color:#102a43;
+          flex-shrink: 0;
+        }
+        h1{
+          margin:0;
+          font-size:1.25rem;
+          letter-spacing:0.2px;
+        }
+        .card{
+          background:var(--card);
+          backdrop-filter: blur(6px);
+          border-radius:10px;
+          padding:16px;
+          margin-top:18px;
+          border:1px solid rgba(255,255,255,0.04);
+        }
+        .controls{
+          display:flex;
+          align-items:center;
+          gap:12px;
+          flex-wrap:wrap;
+        }
+        select{
+          appearance:none;
+          background:linear-gradient(180deg,#ffffff06,#00000020);
+          border:1px solid rgba(255,255,255,0.06);
+          color:inherit;
+          padding:12px 16px;
+          border-radius:8px;
+          font-weight:600;
+          cursor:pointer;
+          min-width:160px;
+        }
+        select:focus {
+          outline: 3px solid var(--accent);
+          outline-offset: 2px;
+        }
+        table{
+          width:100%;
+          border-collapse:collapse;
+          margin-top:12px;
+          font-size:0.95rem;
+          role: table;
+        }
+        thead th{
+          background:var(--table-head);
+          text-align:left;
+          padding:10px;
+          border-bottom:1px solid rgba(255,255,255,0.04);
+          font-weight:600;
+          color:#fff;
+          scope: col;
+        }
+        tbody tr{
+          transition:background .15s;
+        }
+        tbody tr:nth-child(even){
+          background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);
+        }
+        td{
+          padding:10px;
+          border-bottom:1px solid rgba(255,255,255,0.03);
+          color:var(--muted);
+        }
+        .badge{
+          display:inline-block;
+          padding:6px 10px;
+          border-radius:999px;
+          background:rgba(255,255,255,0.06);
+          font-weight:600;
+          color:#fff;
+          min-width: 48px;
+          text-align: center;
+        }
+        .systolic{
+          color:#ffb86b;
+        }
+        .diastolic{
+          color:#7ee787;
+        }
+        .sugar{
+          color:#7fd3ff;
+        }
+        .empty{
+          padding:24px;
+          text-align:center;
+          color:var(--muted);
+        }
+        .pager{
+          display:flex;
+          gap:8px;
+          align-items:center;
+          justify-content:center;
+          margin-top:12px;
+          flex-wrap: wrap;
+        }
+        .btn, .btn-secondary{
+          display:inline-block;
+          padding:12px 16px;
+          border-radius:8px;
+          background:linear-gradient(180deg,var(--accent),#ff4a3a);
+          color:#102a43;
+          font-weight:700;
+          text-decoration:none;
+          box-shadow:0 6px 18px rgba(255,122,89,0.12);
+          border:0;
+          cursor:pointer;
+          transition: background 0.3s ease;
+          min-width: 48px;
+          min-height: 48px;
+          text-align: center;
+          user-select: none;
+        }
+        .btn:hover, .btn-secondary:hover {
+          background: linear-gradient(180deg, #ff4a3a, var(--accent));
+        }
+        .btn:disabled, .btn.disabled{
+          opacity:.45;
+          pointer-events:none;
+        }
+        .btn-secondary {
+          background: transparent;
+          color: var(--accent);
+          box-shadow: none;
+          border: 2px solid var(--accent);
+        }
+        .btn-secondary:hover {
+          background: var(--accent);
+          color: #102a43;
+          box-shadow: 0 6px 18px rgba(255,122,89,0.12);
+        }
+        .btn:focus, .btn-secondary:focus, select:focus {
+          outline: 3px solid var(--accent);
+          outline-offset: 2px;
+        }
+        @media (max-width:640px){
+          .header{
+            flex-direction:column;
+            align-items:flex-start;
+            gap:10px;
+          }
+          .controls{
+            width:100%;
+          }
+          thead th, td{
+            font-size:0.9rem;
+            padding:8px;
+          }
+        }
+        @media (max-width:480px){
+          thead th, td{
+            font-size: 0.85rem;
+            padding: 6px;
+          }
+          select {
+            min-width: 100%;
+          }
+          .btn, .btn-secondary {
+            width: 100%;
+          }
+          .pager {
+            flex-direction: column;
+            gap: 6px;
+          }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="header" role="banner">
+        <div class="brand">
+            <div class="logo" aria-label="Logo with BP initials">BP</div>
+            <div>
+                <h1>BP &amp; Sugar Monitor</h1>
+                <div style="color:var(--muted);font-size:0.9rem">Track blood pressure and sugar readings over time</div>
+            </div>
+        </div>
+        <form th:action="@{/login}" method="post" role="form" aria-label="Select user form">
+            <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <label for="userSelect" style="color:var(--muted);font-weight:600;margin-right:6px">Select user</label>
+            <select id="userSelect" name="userId" aria-label="Select user" onchange="this.form.submit()">
+                <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.name}" th:selected="${u.id} == ${selected.id}"></option>
+            </select>
+        </form>
+        <a class="btn" th:href="@{/users/add}" role="button" aria-label="Add User">Add User</a>
+        <a class="btn-secondary" th:if="${selected != null}" th:href="@{/records/add(userId=${selected.id})}" role="button" aria-label="Add Record">Add Record</a>
+        <a class="btn-secondary" th:href="@{/logout}" role="button" aria-label="Logout">Logout</a>
+    </div>
+
+    <div class="card" role="main" aria-labelledby="dataHeading">
+        <h3 id="dataHeading" style="margin:0 0 8px 0">BP / Sugar Data</h3>
+
+        <table role="table" aria-describedby="dataDescription">
+            <caption id="dataDescription" class="sr-only">Blood pressure and sugar readings table</caption>
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Systolic</th>
+                <th scope="col">Diastolic</th>
+                <th scope="col">Sugar Fasting</th>
+                <th scope="col">Sugar PostMeal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${entries.empty}">
+                <td class="empty" th:colspan="5">No readings available for this user.</td>
+            </tr>
+            <tr th:each="e : ${entries.content}">
+                <td th:text="${#temporals.format(e.date,'dd-MM-yyyy') ?: ''}"></td>
+                <td><span class="badge systolic" th:text="${e.systolic}"></span></td>
+                <td><span class="badge diastolic" th:text="${e.diastolic}"></span></td>
+                <td><span class="badge sugar" th:text="${e.sugarLevelFasting}"></span></td>
+                <td><span class="badge sugar" th:text="${e.sugarLevelPostMeal}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pager" role="navigation" aria-label="Pagination navigation">
+            <a th:if="${entries.hasPrevious()}" th:href="@{/?userId=${selected.id}&page=${entries.number-1}}" class="btn">Previous</a>
+            <a th:if="${!entries.hasPrevious()}" class="btn disabled" aria-disabled="true">Previous</a>
+
+            <div style="color:var(--muted);font-weight:600;padding:6px 10px">
+                Page <span th:text="${entries.number + 1}"></span> of <span th:text="${entries.totalPages}"></span>
+            </div>
+
+            <a th:if="${entries.hasNext()}" th:href="@{/?userId=${selected.id}&page=${entries.number+1}}" class="btn">Next</a>
+            <a th:if="${!entries.hasNext()}" class="btn disabled" aria-disabled="true">Next</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
