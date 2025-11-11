@@ -225,7 +225,7 @@
                 <div style="color:var(--muted);font-size:0.9rem">Track blood pressure and sugar readings over time</div>
             </div>
         </div>
-        <form th:action="@{/login}" method="post" role="form" aria-label="Select user form">
+        <form th:action="@{/main}" method="get" role="form" aria-label="Select user form">
             <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <label for="userSelect" style="color:var(--muted);font-weight:600;margin-right:6px">Select user</label>
             <select id="userSelect" name="userId" aria-label="Select user" onchange="this.form.submit()">
